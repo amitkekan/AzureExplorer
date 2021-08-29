@@ -1,8 +1,10 @@
 ﻿namespace AzureExplorerWebApp.Controllers
 {
+    using AzureExplorerWebApp.Helpers;
     using AzureExplorerWebApp.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
@@ -15,9 +17,12 @@
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IConfiguration _configuration;
+
+        public HomeController(ILogger<HomeController> logger, IConfiguration Configuration)
         {
             _logger = logger;
+            _configuration = Configuration;
         }
 
         public IActionResult Index()
@@ -32,6 +37,13 @@
 
         public IActionResult About()
         {
+            return View();
+        }
+
+        public IActionResult Marvel()
+        {
+            var secretValue = KeyVaultHelper.GetSecretFromKeyVault(_configuration, "Marvel-Public-Key");
+            ViewData["SecretValue"] = secretValue;
             return View();
         }
 
