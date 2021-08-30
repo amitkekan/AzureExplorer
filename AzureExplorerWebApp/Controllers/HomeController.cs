@@ -42,7 +42,7 @@
 
         public IActionResult Marvel()
         {
-            var secretValue = KeyVaultHelper.GetSecretFromKeyVault(_configuration, "Marvel-Public-Key");
+            var secretValue = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "ProjectName");
             ViewData["SecretValue"] = secretValue;
             return View();
         }
