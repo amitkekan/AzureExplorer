@@ -26,9 +26,9 @@
             _configuration = Configuration;
         }
 
-        [Route("test")]
+        [Route("comics")]
         [HttpGet]
-        public async Task<IActionResult> Test()
+        public async Task<IActionResult> Comics()
         {
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
             var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
@@ -38,6 +38,21 @@
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
             var result = await HttpHelper.GetResult(string.Format("http://gateway.marvel.com/v1/public/comics?ts={0}&apikey={1}&hash={2}", timeStamp, publicKey, hash));
+            return Ok(result);
+        }
+
+        [Route("characters")]
+        [HttpGet]
+        public async Task<IActionResult> Characters()
+        {
+            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+
+            var hash = this.GetHash(timeStamp, publicKey, privateKey);
+
+            var result = await HttpHelper.GetResult(string.Format("http://gateway.marvel.com/v1/public/characters?ts={0}&apikey={1}&hash={2}", timeStamp, publicKey, hash));
             return Ok(result);
         }
 
