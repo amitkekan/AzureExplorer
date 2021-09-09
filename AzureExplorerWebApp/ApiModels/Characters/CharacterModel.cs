@@ -1,4 +1,4 @@
-﻿namespace AzureExplorerWebApp.ApiModels
+﻿namespace AzureExplorerWebApp.ApiModels.Characters
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,11 @@
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
 
-    public class CharacterModel : BaseModel
+    public class CharacterModel
     {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
         [JsonPropertyName("name")]
         public string Name { get; set; }
 

@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
+    using System.Security.Cryptography;
+    using System.Text;
     using System.Threading.Tasks;
 
     public static class HttpHelper
@@ -14,7 +16,7 @@
         public static async Task<string> GetResult(string httpUrl)
         {
             try
-            {                
+            {
                 string responseBody = await client.GetStringAsync(httpUrl);
 
                 // stream responseJson = await client.GetStreamAsync(httpUrl);
@@ -25,8 +27,21 @@
             {
                 return ex.Message;
             }
+        }
 
-            return string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <param name="publicKey"></param>
+        /// <param name="privateKey"></param>
+        /// <returns></returns>
+        public static string GetHash(string ts, string publicKey, string privateKey)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(ts + privateKey + publicKey);
+            var generator = MD5.Create();
+            byte[] bytesHash = generator.ComputeHash(bytes);
+            return BitConverter.ToString(bytesHash).ToLower().Replace("-", String.Empty);
         }
     }
 }

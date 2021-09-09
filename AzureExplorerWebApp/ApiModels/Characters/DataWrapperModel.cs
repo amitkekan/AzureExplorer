@@ -1,4 +1,4 @@
-﻿namespace AzureExplorerWebApp.ApiModels
+﻿namespace AzureExplorerWebApp.ApiModels.Characters
 {
     using System;
     using System.Collections.Generic;

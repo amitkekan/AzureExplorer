@@ -9,6 +9,8 @@
     {
         public const string ApiUrlFormat = "http://gateway.marvel.com/v1/public/{0}?ts={1}&apikey={2}&hash={3}&limit={4}&offset={5}";
 
+        public const string NameStartsWithFilter = "&nameStartsWith=";
+
         public const string Characters = "characters";
 
         public const string Comics = "comics";

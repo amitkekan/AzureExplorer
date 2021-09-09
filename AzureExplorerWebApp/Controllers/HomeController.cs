@@ -45,54 +45,11 @@
             return View();
         }
 
-        public async Task<IActionResult> Marvel([Range(0, 100)]int limit = 20, int offset = 0)
-        {
-            // Validation
-            if (limit <= 0 || limit > 100)
-            {
-                limit = 20;
-            }
-
-            if (offset < 0)
-            {
-                offset = 0;
-            }
-
-            //var apiResponse = await HttpHelper.GetResult("https://localhost:44368/api/marvel/characters");
-
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
-
-            var timeStamp = DateTime.Now.Ticks.ToString();
-
-            var hash = this.GetHash(timeStamp, publicKey, privateKey);
-
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash, limit, offset));
-
-            var marvelCharacters = JsonSerializer.Deserialize<DataWrapperModel>(result);
-            return View(marvelCharacters);
-        }
-
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ts"></param>
-        /// <param name="publicKey"></param>
-        /// <param name="privateKey"></param>
-        /// <returns></returns>
-        private string GetHash(string ts, string publicKey, string privateKey)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(ts + privateKey + publicKey);
-            var generator = MD5.Create();
-            byte[] bytesHash = generator.ComputeHash(bytes);
-            return BitConverter.ToString(bytesHash).ToLower().Replace("-", String.Empty);
         }
     }
 }

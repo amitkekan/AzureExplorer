@@ -1,22 +1,24 @@
-﻿@model AzureExplorerWebApp.ApiModels.DataWrapperModel
+﻿@model AzureExplorerWebApp.ApiModels.Characters.DataWrapperModel
 @{
     ViewData["Title"] = "Marvel";
 
     int previousOffset = Model.Data.Offset == 0 ? Model.Data.Offset : Model.Data.Offset - Model.Data.Limit;
     int nextOffset = Model.Data.Limit + Model.Data.Offset;
+    string  name =  Context.Request.Query["name"].ToString();
 }
 
 <div class="text-center">
     <h1 class="display-4">Here we will be exploring the Marvel Api</h1>
     <p>
         <h2>Marvel Characters</h2>
+        <h6>(Data provided by Marvel. © 2014 Marvel)</h6>
     </p>
     <div style="width:100%; display: inline-block;">
         <div style="width:50%; float:left; text-align:left;">
-            <a asp-controller="Home" asp-action="Marvel" asp-route-offset="@previousOffset">Previous</a>
+            <a asp-controller="Marvel" asp-action="Characters" asp-route-offset="@previousOffset"  asp-route-name ="@name">Previous</a>
         </div>
         <div style="width:50%; float:right; text-align:right;">
-            <a asp-controller="Home" asp-action="Marvel" asp-route-offset="@nextOffset">Next</a>
+            <a asp-controller="Marvel" asp-action="Characters" asp-route-offset="@nextOffset" asp-route-name ="@name">Next</a>
         </div>
     </div>
     <div style="display: inline-block;">

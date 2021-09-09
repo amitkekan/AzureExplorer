@@ -13,4 +13,12 @@
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ApiModels\Comics\" />
+    <Folder Include="ApiModels\Events\" />
+    <Folder Include="ApiModels\Creators\" />
+    <Folder Include="ApiModels\Stories\" />
+    <Folder Include="ApiModels\Series\" />
+  </ItemGroup>
+
 </Project>
