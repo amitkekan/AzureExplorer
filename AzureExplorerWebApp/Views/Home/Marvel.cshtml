@@ -1,10 +1,17 @@
-﻿@{
+﻿@model AzureExplorerWebApp.ApiModels.DataWrapperModel
+@{
     ViewData["Title"] = "Marvel";
 }
 
 <div class="text-center">
     <h1 class="display-4">Here we will be exploring the Marvel Api</h1>
     <p>
-        My Marvel Public Key: @ViewData["SecretValue"]
+        Marvel Characters
     </p>
+    <div>
+        @foreach (var character in Model.Data.Results)
+        {
+            <div>@character.Name</div>
+        }
+    </div>
 </div>

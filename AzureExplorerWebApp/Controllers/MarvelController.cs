@@ -11,6 +11,8 @@
     using System.Threading.Tasks;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Text.Json;
+    using AzureExplorerWebApp.ApiModels;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -20,28 +22,14 @@
 
         private readonly IConfiguration _configuration;
 
+
         public MarvelController(ILogger<MarvelController> logger, IConfiguration Configuration)
         {
             _logger = logger;
             _configuration = Configuration;
         }
 
-        [Route("comics")]
-        [HttpGet]
-        public async Task<IActionResult> Comics()
-        {
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
-
-            var timeStamp = DateTime.Now.Ticks.ToString();
-
-            var hash = this.GetHash(timeStamp, publicKey, privateKey);
-
-            var result = await HttpHelper.GetResult(string.Format("http://gateway.marvel.com/v1/public/comics?ts={0}&apikey={1}&hash={2}", timeStamp, publicKey, hash));
-            return Ok(result);
-        }
-
-        [Route("characters")]
+        [Route(ApiConstants.Characters)]
         [HttpGet]
         public async Task<IActionResult> Characters()
         {
@@ -52,7 +40,82 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format("http://gateway.marvel.com/v1/public/characters?ts={0}&apikey={1}&hash={2}", timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash));
+            return Ok(result);
+        }
+
+        [Route(ApiConstants.Comics)]
+        [HttpGet]
+        public async Task<IActionResult> Comics()
+        {
+            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+
+            var hash = this.GetHash(timeStamp, publicKey, privateKey);
+
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Comics, timeStamp, publicKey, hash));
+            return Ok(result);
+        }
+
+        [Route(ApiConstants.Creators)]
+        [HttpGet]
+        public async Task<IActionResult> Creators()
+        {
+            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+
+            var hash = this.GetHash(timeStamp, publicKey, privateKey);
+
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Creators, timeStamp, publicKey, hash));
+            return Ok(result);
+        }
+
+        [Route(ApiConstants.Events)]
+        [HttpGet]
+        public async Task<IActionResult> Events()
+        {
+            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+
+            var hash = this.GetHash(timeStamp, publicKey, privateKey);
+
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Events, timeStamp, publicKey, hash));
+            return Ok(result);
+        }
+
+        [Route(ApiConstants.Series)]
+        [HttpGet]
+        public async Task<IActionResult> Series()
+        {
+            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+
+            var hash = this.GetHash(timeStamp, publicKey, privateKey);
+
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Series, timeStamp, publicKey, hash));
+            return Ok(result);
+        }
+
+        [Route(ApiConstants.Stories)]
+        [HttpGet]
+        public async Task<IActionResult> Stories()
+        {
+            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+
+            var hash = this.GetHash(timeStamp, publicKey, privateKey);
+
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Stories, timeStamp, publicKey, hash));
             return Ok(result);
         }
 

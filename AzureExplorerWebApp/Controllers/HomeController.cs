@@ -1,5 +1,6 @@
 ﻿namespace AzureExplorerWebApp.Controllers
 {
+    using AzureExplorerWebApp.ApiModels;
     using AzureExplorerWebApp.Helpers;
     using AzureExplorerWebApp.Models;
     using Microsoft.AspNetCore.Authorization;
@@ -10,6 +11,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Text;
+    using System.Text.Json;
     using System.Threading.Tasks;
 
     [Authorize]
@@ -40,11 +43,21 @@
             return View();
         }
 
-        public IActionResult Marvel()
+        public async Task<IActionResult> Marvel()
         {
-            var secretValue = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "ProjectName");
-            ViewData["SecretValue"] = secretValue;
-            return View();
+            //var apiResponse = await HttpHelper.GetResult("https://localhost:44368/api/marvel/characters");
+
+            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+
+            var hash = this.GetHash(timeStamp, publicKey, privateKey);
+
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash));
+
+            var marvelCharacters = JsonSerializer.Deserialize<DataWrapperModel>(result);
+            return View(marvelCharacters);
         }
 
         [AllowAnonymous]
@@ -52,6 +65,21 @@
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <param name="publicKey"></param>
+        /// <param name="privateKey"></param>
+        /// <returns></returns>
+        private string GetHash(string ts, string publicKey, string privateKey)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(ts + privateKey + publicKey);
+            var generator = MD5.Create();
+            byte[] bytesHash = generator.ComputeHash(bytes);
+            return BitConverter.ToString(bytesHash).ToLower().Replace("-", String.Empty);
         }
     }
 }
