@@ -31,8 +31,19 @@
 
         [Route(ApiConstants.Characters)]
         [HttpGet]
-        public async Task<IActionResult> Characters()
+        public async Task<IActionResult> Characters(int limit = 20, int offset = 0)
         {
+            // Validation
+            if (limit <= 0 || limit > 100)
+            {
+                limit = 20;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
             var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
@@ -40,14 +51,25 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash, limit, offset));
             return Ok(result);
         }
 
         [Route(ApiConstants.Comics)]
         [HttpGet]
-        public async Task<IActionResult> Comics()
+        public async Task<IActionResult> Comics(int limit = 20, int offset = 0)
         {
+            // Validation
+            if (limit <= 0 || limit > 100)
+            {
+                limit = 20;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
             var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
@@ -55,14 +77,25 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Comics, timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Comics, timeStamp, publicKey, hash, limit, offset));
             return Ok(result);
         }
 
         [Route(ApiConstants.Creators)]
         [HttpGet]
-        public async Task<IActionResult> Creators()
+        public async Task<IActionResult> Creators(int limit = 20, int offset = 0)
         {
+            // Validation
+            if (limit <= 0 || limit > 100)
+            {
+                limit = 20;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
             var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
@@ -70,14 +103,25 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Creators, timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Creators, timeStamp, publicKey, hash, limit, offset));
             return Ok(result);
         }
 
         [Route(ApiConstants.Events)]
         [HttpGet]
-        public async Task<IActionResult> Events()
+        public async Task<IActionResult> Events(int limit = 20, int offset = 0)
         {
+            // Validation
+            if (limit <= 0 || limit > 100)
+            {
+                limit = 20;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
             var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
@@ -85,14 +129,25 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Events, timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Events, timeStamp, publicKey, hash, limit, offset));
             return Ok(result);
         }
 
         [Route(ApiConstants.Series)]
         [HttpGet]
-        public async Task<IActionResult> Series()
+        public async Task<IActionResult> Series(int limit = 20, int offset = 0)
         {
+            // Validation
+            if (limit <= 0 || limit > 100)
+            {
+                limit = 20;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
             var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
@@ -100,14 +155,25 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Series, timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Series, timeStamp, publicKey, hash, limit, offset));
             return Ok(result);
         }
 
         [Route(ApiConstants.Stories)]
         [HttpGet]
-        public async Task<IActionResult> Stories()
+        public async Task<IActionResult> Stories(int limit = 20, int offset = 0)
         {
+            // Validation
+            if (limit <= 0 || limit > 100)
+            {
+                limit = 20;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
             var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
@@ -115,7 +181,7 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Stories, timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Stories, timeStamp, publicKey, hash, limit, offset));
             return Ok(result);
         }
 

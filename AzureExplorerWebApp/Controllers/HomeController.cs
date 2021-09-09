@@ -9,8 +9,10 @@
     using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Diagnostics;
     using System.Linq;
+    using System.Security.Cryptography;
     using System.Text;
     using System.Text.Json;
     using System.Threading.Tasks;
@@ -43,8 +45,19 @@
             return View();
         }
 
-        public async Task<IActionResult> Marvel()
+        public async Task<IActionResult> Marvel([Range(0, 100)]int limit = 20, int offset = 0)
         {
+            // Validation
+            if (limit <= 0 || limit > 100)
+            {
+                limit = 20;
+            }
+
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
             //var apiResponse = await HttpHelper.GetResult("https://localhost:44368/api/marvel/characters");
 
             var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
@@ -54,7 +67,7 @@
 
             var hash = this.GetHash(timeStamp, publicKey, privateKey);
 
-            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash));
+            var result = await HttpHelper.GetResult(string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash, limit, offset));
 
             var marvelCharacters = JsonSerializer.Deserialize<DataWrapperModel>(result);
             return View(marvelCharacters);

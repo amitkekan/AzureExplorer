@@ -25,5 +25,35 @@
 
         [JsonPropertyName("thumbnail")]
         public ImageModel Thumbnail { get; set; }
+
+        public string DetailUrl
+        {
+            get
+            {
+                var url =  this.Urls.Where(i => i.Type == "detail").FirstOrDefault();
+
+                return url != null ? url.Url : string.Empty;
+            }
+        }
+
+        public string WikiUrl
+        {
+            get
+            {
+                var url = this.Urls.Where(i => i.Type == "wiki").FirstOrDefault();
+
+                return url != null ? url.Url : string.Empty;
+            }
+        }
+
+        public string ComicUrl
+        {
+            get
+            {
+                var url = this.Urls.Where(i => i.Type == "comiclink").FirstOrDefault();
+
+                return url != null ? url.Url : string.Empty;
+            }
+        }
     }
 }

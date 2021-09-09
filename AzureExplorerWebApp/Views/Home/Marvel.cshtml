@@ -1,17 +1,33 @@
 ﻿@model AzureExplorerWebApp.ApiModels.DataWrapperModel
 @{
     ViewData["Title"] = "Marvel";
+
+    int previousOffset = Model.Data.Offset == 0 ? Model.Data.Offset : Model.Data.Offset - Model.Data.Limit;
+    int nextOffset = Model.Data.Limit + Model.Data.Offset;
 }
 
 <div class="text-center">
     <h1 class="display-4">Here we will be exploring the Marvel Api</h1>
     <p>
-        Marvel Characters
+        <h2>Marvel Characters</h2>
     </p>
-    <div>
+    <div style="width:100%; display: inline-block;">
+        <div style="width:50%; float:left; text-align:left;">
+            <a asp-controller="Home" asp-action="Marvel" asp-route-offset="@previousOffset">Previous</a>
+        </div>
+        <div style="width:50%; float:right; text-align:right;">
+            <a asp-controller="Home" asp-action="Marvel" asp-route-offset="@nextOffset">Next</a>
+        </div>
+    </div>
+    <div style="display: inline-block;">
         @foreach (var character in Model.Data.Results)
         {
-            <div>@character.Name</div>
+        <a href="@character.DetailUrl" target="_blank">
+            <div style="float:left; padding:10px; border: 1px solid grey">
+                <div style="width: 200px; height: 200px; overflow: hidden; padding-bottom: 5px;"><img src="@character.Thumbnail.Url" title="@character.Name" alt="@character.Name" style="width:200px;" /></div>
+                <div style="width: 200px; white-space: nowrap; overflow: hidden;"><span style="text-overflow: ellipsis">@character.Name</span></div>
+            </div>
+        </a>
         }
     </div>
 </div>
