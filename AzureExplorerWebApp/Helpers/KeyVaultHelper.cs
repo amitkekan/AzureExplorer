@@ -5,22 +5,18 @@
     using Azure.Security.KeyVault.Secrets;
     using Microsoft.Extensions.Configuration;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    /// The Keyvault Helper class
     /// </summary>
     public static class KeyVaultHelper
     {
-
         /// <summary>
-        /// 
+        /// Gets the key vault secret value by either managed identity or client secret based on isDebug flag.
         /// </summary>
-        /// <param name="configuration"></param>
-        /// <param name="secretName"></param>
-        /// <returns></returns>
+        /// <param name="configuration">The configuration object</param>
+        /// <param name="secretName">The secret name</param>
+        /// <returns>The secret value as string</returns>
         public static string GetKeyVaultSecret(IConfiguration configuration, string secretName)
         {
             string result = null;
@@ -29,27 +25,22 @@
             var clientId = configuration["AzureAd:ClientId"];
             var clientSecret = configuration["AzureAd:ClientSecret"];
             var keyVaultUrl = configuration["KeyVault:Url"];
+            bool isDebug = false;
+            Boolean.TryParse(configuration["IsDebug"], out isDebug);
 
-            ClientSecretCredential clientSecretCred = new ClientSecretCredential(tenantId, clientId, clientSecret);
-            SecretClient secretClient = new SecretClient(new Uri(keyVaultUrl), clientSecretCred);
-            result = secretClient.GetSecret(secretName).Value.Value;
+            TokenCredential credential = null;
 
-            return result;
-        }
+            if (isDebug)
+            {
+                // Make sure to have Registered App in ADD added to the "Access Policy" of the KeyVault
+                credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+            }
+            else
+            {
+                // Make sure to have Identity Generated for App Service, then this Identity added to the "Access Policy" of the KeyVault
+                credential = new DefaultAzureCredential();
+            }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="configuration"></param>
-        /// <param name="secretName"></param>
-        /// <returns></returns>
-        public static string GetManagedKeyVaultSecret(IConfiguration configuration, string secretName)
-        {
-            string result = null;
-
-            var keyVaultUrl = configuration["KeyVault:Url"];
-
-            TokenCredential credential = new DefaultAzureCredential();
             SecretClient secretClient = new SecretClient(new Uri(keyVaultUrl), credential);
             result = secretClient.GetSecret(secretName).Value.Value;
 

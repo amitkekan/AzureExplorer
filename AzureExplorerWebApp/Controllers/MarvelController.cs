@@ -42,13 +42,9 @@
                 offset = 0;
             }
 
-            //var apiResponse = await HttpHelper.GetResult("https://localhost:44368/api/marvel/characters");
-
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
-
+            var publicKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Private-Key");
             var timeStamp = DateTime.Now.Ticks.ToString();
-
             var hash = HttpHelper.GetHash(timeStamp, publicKey, privateKey);
 
             var requestUri = string.Format(ApiConstants.ApiUrlFormat, ApiConstants.Characters, timeStamp, publicKey, hash, limit, offset);

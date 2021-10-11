@@ -44,8 +44,8 @@
                 offset = 0;
             }
 
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+            var publicKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
             var timeStamp = DateTime.Now.Ticks.ToString();
 
@@ -70,8 +70,8 @@
                 offset = 0;
             }
 
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+            var publicKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
             var timeStamp = DateTime.Now.Ticks.ToString();
 
@@ -96,8 +96,8 @@
                 offset = 0;
             }
 
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+            var publicKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
             var timeStamp = DateTime.Now.Ticks.ToString();
 
@@ -122,8 +122,8 @@
                 offset = 0;
             }
 
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+            var publicKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
             var timeStamp = DateTime.Now.Ticks.ToString();
 
@@ -148,8 +148,8 @@
                 offset = 0;
             }
 
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+            var publicKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
             var timeStamp = DateTime.Now.Ticks.ToString();
 
@@ -174,8 +174,8 @@
                 offset = 0;
             }
 
-            var publicKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Public-Key");
-            var privateKey = KeyVaultHelper.GetManagedKeyVaultSecret(_configuration, "Marvel-Private-Key");
+            var publicKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Public-Key");
+            var privateKey = KeyVaultHelper.GetKeyVaultSecret(_configuration, "Marvel-Private-Key");
 
             var timeStamp = DateTime.Now.Ticks.ToString();
 
